@@ -1,0 +1,2 @@
+class ErealEstateAdd < ApplicationRecord
+end
