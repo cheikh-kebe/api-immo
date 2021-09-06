@@ -12,7 +12,7 @@ class RealEstateAdsControllerTest < ActionDispatch::IntegrationTest
 
   test "should create real_estate_ad" do
     assert_difference('RealEstateAd.count') do
-      post real_estate_ads_url, params: { real_estate_ad: {  } }, as: :json
+      post real_estate_ads_url, params: { real_estate_ad: { description: @real_estate_ad.description, price: @real_estate_ad.price, title: @real_estate_ad.title } }, as: :json
     end
 
     assert_response 201
@@ -24,7 +24,7 @@ class RealEstateAdsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should update real_estate_ad" do
-    patch real_estate_ad_url(@real_estate_ad), params: { real_estate_ad: {  } }, as: :json
+    patch real_estate_ad_url(@real_estate_ad), params: { real_estate_ad: { description: @real_estate_ad.description, price: @real_estate_ad.price, title: @real_estate_ad.title } }, as: :json
     assert_response 200
   end
 

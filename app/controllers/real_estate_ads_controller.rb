@@ -46,6 +46,6 @@ class RealEstateAdsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def real_estate_ad_params
-      params.fetch(:real_estate_ad, {})
+      params.require(:real_estate_ad).permit(:title, :description, :price)
     end
 end
