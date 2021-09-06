@@ -25,6 +25,7 @@ gem 'devise'
 gem 'table_print'
 gem 'devise-jwt'
 gem 'rack-cors'
+gem 'dotenv'
 
 # Use Rack CORS for handling Cross-Origin Resource Sharing (CORS), making cross-origin AJAX possible
 # gem 'rack-cors'
@@ -42,3 +43,5 @@ end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
+gem 'faker'
+gem 'table_print'
