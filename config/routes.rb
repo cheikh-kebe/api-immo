@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
+  
   resources :real_estate_ads
+
   devise_for :users, 
     controllers: {
       sessions: 'users/sessions',
