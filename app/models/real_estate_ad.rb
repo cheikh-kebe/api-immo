@@ -1,0 +1,2 @@
+class RealEstateAd < ApplicationRecord
+end

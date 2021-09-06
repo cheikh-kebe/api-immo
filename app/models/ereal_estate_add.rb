@@ -1,2 +1,0 @@
-class ErealEstateAdd < ApplicationRecord
-end
