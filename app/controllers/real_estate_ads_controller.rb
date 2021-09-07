@@ -12,7 +12,7 @@ class RealEstateAdsController < ApplicationController
 
   # GET /real_estate_ads/1
   def show
-    render json: @real_estate_ad
+    render json: @real_estate_ad.as_json().merge(email: @real_estate_ad.user.email)
   end
 
   # POST /real_estate_ads
