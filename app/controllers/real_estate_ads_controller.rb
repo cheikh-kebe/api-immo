@@ -1,5 +1,7 @@
 class RealEstateAdsController < ApplicationController
   before_action :set_real_estate_ad, only: [:show, :update, :destroy]
+  before_action :authenticate_user!, only: %i[create edit update destroy ]
+  before_action :is_authorized_user, only: %i[update destroy ]
 
   # GET /real_estate_ads
   def index

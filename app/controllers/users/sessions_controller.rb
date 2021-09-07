@@ -4,7 +4,7 @@ class Users::SessionsController < Devise::SessionsController
   private
 
   def respond_with(resource, _opts = {})
-    if signed_in?
+    if user_signed_in?
       render json: { message: 'You are logged in!' }, status: :ok
     else
       render json: { message: 'please login.' }, status: :unauthorized
