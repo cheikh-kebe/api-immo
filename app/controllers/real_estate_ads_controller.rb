@@ -12,13 +12,13 @@ class RealEstateAdsController < ApplicationController
 
   # GET /real_estate_ads/1
   def show
-    render json: @real_estate_ad
+    render json: @real_estate_ad.as_json().merge(email: @real_estate_ad.user.email)
   end
 
   # POST /real_estate_ads
   def create
     @real_estate_ad = RealEstateAd.new(real_estate_ad_params)
-
+    @real_estate_ad.user_id = current_user.id
     if @real_estate_ad.save
       render json: @real_estate_ad, status: :created, location: @real_estate_ad
     else
@@ -48,6 +48,6 @@ class RealEstateAdsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def real_estate_ad_params
-      params.require(:real_estate_ad).permit(:title, :description, :price)
+      params.require(:real_estate_ad).permit(:title, :description, :price, :city, :user_id)
     end
 end
