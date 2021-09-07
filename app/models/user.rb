@@ -4,7 +4,6 @@ class User < ApplicationRecord
 
   after_create :welcome_send
   
-
   devise :database_authenticatable, :jwt_authenticatable, :registerable,
          :recoverable, jwt_revocation_strategy: JwtDenylist
   validates :email, uniqueness: true
@@ -16,10 +15,10 @@ class User < ApplicationRecord
   end
 
   def send_password_reset
-    self.password_reset_token = generate_base64_token
-    self.password_reset_sent_at = Time.zone.now
-    save!
-    UserMailer.password_reset(self).deliver_now
+    # self.password_reset_token = generate_base64_token
+    # self.password_reset_sent_at = Time.zone.now
+    # save!
+    UserMailer.welcome_email(self).deliver_now
   end
 
   def password_token_valid?

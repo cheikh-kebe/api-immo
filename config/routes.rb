@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  post 'forgot_password' => "password#forgot"
+  post 'reset_password' => "password#reset"
   
   resources :real_estate_ads
 
