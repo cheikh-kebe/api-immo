@@ -1,7 +1,5 @@
 Rails.application.routes.draw do
   
-  get 'real_estate_ad/index'
-  get 'real_estate_ad/show'
   resources :real_estate_ads
 
   devise_for :users, 
