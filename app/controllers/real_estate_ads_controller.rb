@@ -12,12 +12,14 @@ class RealEstateAdsController < ApplicationController
   def index
     @real_estate_ads = RealEstateAd.all
 
-    render json: @real_estate_ads
+    render json: @real_estate_ads.map{|ad|
+      ad.as_json().merge(image_path: url_for(ad.image),email: ad.user.email)
+    }
   end
 
   # GET /real_estate_ads/1
   def show
-    render json: @real_estate_ad.as_json().merge(email: @real_estate_ad.user.email)
+    render json: @real_estate_ad.as_json().merge(image_path: url_for(@real_estate_ad.image),email: @real_estate_ad.user.email)
   end
 
   # POST /real_estate_ads
