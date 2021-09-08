@@ -1,28 +1,25 @@
 class RealEstateAdsController < ApplicationController
   before_action :set_real_estate_ad, only: [:show, :update, :destroy]
-  #before_action :authenticate_user!, only: %i[create edit update destroy ]
-  #before_action :is_authorized_user, only: %i[update destroy ]
+  before_action :authenticate_user!, only: %i[create edit update destroy ]
+  before_action :is_authorized_user, only: %i[update destroy ]
 
 
   def my_ads
     @my_ads = RealEstateAd.all.where(user_id: current_user.id)
-
-    render json: @my_ads.map{|ad|
-      ad.as_json.merge(image_path: ad.image.public_url)
-    }
+    render json: @my_ads
   end
     # GET /real_estate_ads
   def index
     @real_estate_ads = RealEstateAd.all
 
     render json: @real_estate_ads.map{|ad|
-      ad.as_json.merge(image_path: ad.image.public_url,email: ad.user.email)
+      ad.as_json.merge(image_path: url_for(ad.image),email: ad.user.email)
     }
   end
 
   # GET /real_estate_ads/1
   def show
-    render json: @real_estate_ad.as_json.merge(image_path: ad.image.public_url,email: @real_estate_ad.user.email)
+    render json: @real_estate_ad.as_json.merge(image_path: url_for(@real_estate_ad.image),email: @real_estate_ad.user.email)
   end
 
   # POST /real_estate_ads
