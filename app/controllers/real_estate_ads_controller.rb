@@ -26,6 +26,8 @@ class RealEstateAdsController < ApplicationController
   def create
     @real_estate_ad = RealEstateAd.new(real_estate_ad_params)
     @real_estate_ad.user_id = current_user.id
+    @real_estate_ad.image.attach(params[:image])
+
     if @real_estate_ad.save
       render json: @real_estate_ad, status: :created, location: @real_estate_ad
     else
@@ -60,6 +62,6 @@ class RealEstateAdsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def real_estate_ad_params
-      params.require(:real_estate_ad).permit(:title, :description, :price, :city, :user_id)
+      params.permit(:title, :description, :price, :city, :user_id, :image)
     end
 end
