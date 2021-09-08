@@ -1,7 +1,10 @@
 Rails.application.routes.draw do
   
-  resources :real_estate_ads
-
+  resources :real_estate_ads do
+  collection do
+    get 'my_ads'
+  end
+end
   devise_for :users, 
     controllers: {
       sessions: 'users/sessions',

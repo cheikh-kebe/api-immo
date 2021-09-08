@@ -3,7 +3,12 @@ class RealEstateAdsController < ApplicationController
   before_action :authenticate_user!, only: %i[create edit update destroy ]
   before_action :is_authorized_user, only: %i[update destroy ]
 
-  # GET /real_estate_ads
+
+  def my_ads
+    @my_ads = RealEstateAd.all.where(user_id: current_user.id)
+    render json: @my_ads
+  end
+    # GET /real_estate_ads
   def index
     @real_estate_ads = RealEstateAd.all
 
