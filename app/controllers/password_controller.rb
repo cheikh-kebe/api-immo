@@ -16,7 +16,7 @@ class PasswordController < ApplicationController
   end
 
   def reset
-    user = User.find_by(params[:token])
+    user = User.find_by(params[:email])
     if user.present? && user.password_token_valid?
       if user.reset_password(params[:password])
         render json: {
