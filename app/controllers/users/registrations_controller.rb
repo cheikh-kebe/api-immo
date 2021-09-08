@@ -10,10 +10,10 @@ class Users::RegistrationsController < Devise::RegistrationsController
   end
 
   def register_success
-    render json: { message: 'Your sign Up is a success.' }, status: :ok
+    render json: { message: 'Your sign Up is a success.', user_id: current_user.id }, status: :ok
   end
 
   def register_failed
-    render json: { message: "Hummmm Something went wrong, please provide good info." }, status: :unauthorized
+    render json: { message: "Hummmm Something went wrong, please provide good info."}, status: :unauthorized
   end
 end
