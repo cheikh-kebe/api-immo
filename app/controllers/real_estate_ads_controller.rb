@@ -6,7 +6,9 @@ class RealEstateAdsController < ApplicationController
 
   def my_ads
     @my_ads = RealEstateAd.all.where(user_id: current_user.id)
-    render json: @my_ads
+    render json:   @my_ads.map{|ad|
+      ad.as_json.merge(image_path: url_for(ad.image),email: ad.user.email, user_id:ad.user.id)
+    }
   end
     # GET /real_estate_ads
   def index
@@ -62,6 +64,6 @@ class RealEstateAdsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def real_estate_ad_params
-      params.permit(:title, :description, :price, :city, :user_id, :image)
+      params.permit(:title, :description, :price, :city, :user_id, :image, :id)
     end
 end
