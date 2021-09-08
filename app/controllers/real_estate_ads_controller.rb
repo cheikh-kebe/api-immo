@@ -44,7 +44,12 @@ class RealEstateAdsController < ApplicationController
 
   # DELETE /real_estate_ads/1
   def destroy
-    @real_estate_ad.destroy
+
+    if @real_estate_ad.destroy
+      render json: { message: 'Ad deleted' }, status: :ok
+    else
+      render json: @real_estate_ad.errors, status: :unprocessable_entity
+    end
   end
 
   private
