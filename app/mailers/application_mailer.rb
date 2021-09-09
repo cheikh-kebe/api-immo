@@ -1,4 +1,4 @@
 class ApplicationMailer < ActionMailer::Base
-  default from: 'crazyrabitt.01@gmail.com'
+  default from: 'https://api-immocoin.herokuapp.com'
   layout 'mailer'
 end
