@@ -1,21 +1,34 @@
 class RealEstateAdsController < ApplicationController
   before_action :set_real_estate_ad, only: [:show, :update, :destroy]
+  before_action :authenticate_user!, only: %i[create edit update destroy ]
+  before_action :is_authorized_user, only: %i[update destroy ]
 
-  # GET /real_estate_ads
+  def my_ads
+    @my_ads = RealEstateAd.all.where(user_id: current_user.id)
+    render json:   @my_ads.map{|ad|
+      ad.as_json.merge(image_path: url_for(ad.image),email: ad.user.email, user_id:ad.user.id)
+    }
+  end
   def index
     @real_estate_ads = RealEstateAd.all
-
-    render json: @real_estate_ads
+    render json: @real_estate_ads.map{|ad|
+      ad.as_json.merge(image_path: url_for(ad.image),email: ad.user.email)
+    }
   end
 
-  # GET /real_estate_ads/1
   def show
-    render json: @real_estate_ad
+    render json: @real_estate_ad.as_json.merge(image_path: url_for(@real_estate_ad.image),email: @real_estate_ad.user.email)
   end
 
-  # POST /real_estate_ads
   def create
     @real_estate_ad = RealEstateAd.new(real_estate_ad_params)
+    @real_estate_ad.user_id = current_user.id
+    @image = params[:image]
+    if @image.present?
+      @real_estate_ad.image.attach(@image)
+    else
+      @real_estate_ad.image.attach(io: File.open(File.join(Rails.root,'app/assets/images/default.jpeg')), filename: 'default.jpeg')
+    end
 
     if @real_estate_ad.save
       render json: @real_estate_ad, status: :created, location: @real_estate_ad
@@ -35,17 +48,19 @@ class RealEstateAdsController < ApplicationController
 
   # DELETE /real_estate_ads/1
   def destroy
-    @real_estate_ad.destroy
+    if @real_estate_ad.destroy
+      render json: { message: 'Ad deleted' }, status: :ok
+    else
+      render json: @real_estate_ad.errors, status: :unprocessable_entity
+    end
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
     def set_real_estate_ad
       @real_estate_ad = RealEstateAd.find(params[:id])
     end
 
-    # Only allow a list of trusted parameters through.
     def real_estate_ad_params
-      params.require(:real_estate_ad).permit(:title, :description, :price)
+      params.permit(:title, :description, :price, :city, :user_id, :image, :id)
     end
 end
