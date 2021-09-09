@@ -103,9 +103,11 @@ Rails.application.configure do
   # class timestamps to determine how long to wait before reading from the
   # replica.
   
-  config.action_mailer.perform_deliveries = true
+  # config.action_mailer.perform_deliveries = true
+
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.default_url_options = { host: "https://api-immocoin.herokuapp.com" }
+  
   # By default Rails will store a last write timestamp in the session. The
   # DatabaseSelector middleware is designed as such you can define your own
   # strategy for connection switching and pass that into the middleware through
