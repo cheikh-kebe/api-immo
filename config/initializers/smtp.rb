@@ -4,5 +4,6 @@ ActionMailer::Base.smtp_settings = {
   :domain => 'https://api-immocoin.herokuapp.com',
   :address => 'smtp.sendgrid.net',
   :port => 587,
-  :authentication => :plain
+  :authentication => :plain,
+  :enable_starttls_auto => true
 }
