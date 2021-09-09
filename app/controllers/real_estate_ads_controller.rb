@@ -3,32 +3,32 @@ class RealEstateAdsController < ApplicationController
   before_action :authenticate_user!, only: %i[create edit update destroy ]
   before_action :is_authorized_user, only: %i[update destroy ]
 
-
   def my_ads
     @my_ads = RealEstateAd.all.where(user_id: current_user.id)
     render json:   @my_ads.map{|ad|
       ad.as_json.merge(image_path: url_for(ad.image),email: ad.user.email, user_id:ad.user.id)
     }
   end
-    # GET /real_estate_ads
   def index
     @real_estate_ads = RealEstateAd.all
-
     render json: @real_estate_ads.map{|ad|
       ad.as_json.merge(image_path: url_for(ad.image),email: ad.user.email)
     }
   end
 
-  # GET /real_estate_ads/1
   def show
     render json: @real_estate_ad.as_json.merge(image_path: url_for(@real_estate_ad.image),email: @real_estate_ad.user.email)
   end
 
-  # POST /real_estate_ads
   def create
     @real_estate_ad = RealEstateAd.new(real_estate_ad_params)
     @real_estate_ad.user_id = current_user.id
-    @real_estate_ad.image.attach(params[:image])
+    @image = params[:image]
+    if @image.present?
+      @real_estate_ad.image.attach(@image)
+    else
+      @real_estate_ad.image.attach(io: File.open(File.join(Rails.root,'app/assets/images/default.jpeg')), filename: 'default.jpeg')
+    end
 
     if @real_estate_ad.save
       render json: @real_estate_ad, status: :created, location: @real_estate_ad
@@ -48,7 +48,6 @@ class RealEstateAdsController < ApplicationController
 
   # DELETE /real_estate_ads/1
   def destroy
-
     if @real_estate_ad.destroy
       render json: { message: 'Ad deleted' }, status: :ok
     else
@@ -57,12 +56,10 @@ class RealEstateAdsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
     def set_real_estate_ad
       @real_estate_ad = RealEstateAd.find(params[:id])
     end
 
-    # Only allow a list of trusted parameters through.
     def real_estate_ad_params
       params.permit(:title, :description, :price, :city, :user_id, :image, :id)
     end
