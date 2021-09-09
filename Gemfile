@@ -26,7 +26,7 @@ gem 'table_print'
 gem 'devise-jwt'
 gem 'rack-cors'
 gem 'dotenv'
-
+gem 'aws-sdk-s3'
 # Use Rack CORS for handling Cross-Origin Resource Sharing (CORS), making cross-origin AJAX possible
 # gem 'rack-cors'
 
